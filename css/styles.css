@@ -29,8 +29,19 @@ body {
     position: relative;
 }
 
+#hero-circuit-container {
+    position: relative;
+    width: 100%;
+}
+
 #hero {
-    background: radial-gradient(ellipse at center, #0a0a15 0%, #000000 70%);
+    background: radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0.92) 0%,
+        rgba(0, 0, 0, 0.75) 35%,
+        rgba(0, 0, 0, 0.25) 65%,
+        transparent 85%);
+    z-index: 1;
+    position: relative;
 }
 
 #hero::after {
@@ -39,14 +50,17 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 150px;
-    background: linear-gradient(to bottom, transparent, #05050f);
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, rgba(5, 5, 15, 0.3));
     pointer-events: none;
+    z-index: 2;
 }
 
 #circuit-section {
-    background: #05050f;
+    background: transparent;
     overflow: hidden;
+    z-index: 1;
+    position: relative;
 }
 
 #circuit-section::after {
@@ -89,6 +103,8 @@ body {
 
 .logo-container {
     margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
 }
 
 #cyberdyne-logo {
@@ -104,6 +120,8 @@ body {
 
 .title-container {
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .subtitle-group {
@@ -168,9 +186,13 @@ body {
    ============================================ */
 
 #circuit-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: block;
+    z-index: 0;
 }
 
 /* ============================================

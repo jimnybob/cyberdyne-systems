@@ -18,7 +18,7 @@
     var displayHeight = 0;
 
     var GRID_SIZE = 40;
-    var MAX_PULSES = 18;
+    var MAX_PULSES = 30;
     var PULSE_SPAWN_MIN = 150;
     var PULSE_SPAWN_MAX = 400;
     var nextPulseInterval = 300;
@@ -40,7 +40,7 @@
                 var x = c * GRID_SIZE + GRID_SIZE / 2;
                 var y = r * GRID_SIZE + GRID_SIZE / 2;
                 var dist = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
-                var probability = 0.12 + 0.30 * (1 - dist / maxDist);
+                var probability = 0.10 + 0.25 * (1 - dist / maxDist);
                 if (Math.random() < probability) {
                     nodes.push({
                         x: x,
@@ -114,24 +114,69 @@
 
     function createTrace(from, to) {
         var waypoints = [{ x: from.x, y: from.y }];
-        if (from.gridCol !== to.gridCol && from.gridRow !== to.gridRow) {
+        var dx = to.x - from.x;
+        var dy = to.y - from.y;
+        var adx = Math.abs(dx);
+        var ady = Math.abs(dy);
+        var sx = dx > 0 ? 1 : -1;
+        var sy = dy > 0 ? 1 : -1;
+
+        // Aligned on same row or column — straight line
+        if (adx === 0 || ady === 0) {
+            waypoints.push({ x: to.x, y: to.y });
+            return { waypoints: waypoints, length: calcTraceLength(waypoints) };
+        }
+
+        var strategy = Math.random();
+
+        if (strategy < 0.30) {
+            // Diagonal-first: 45° for min distance, then orthogonal
+            var diag = Math.min(adx, ady);
+            waypoints.push({ x: from.x + sx * diag, y: from.y + sy * diag });
+
+        } else if (strategy < 0.55) {
+            // Orthogonal-first: straight along longer axis, then 45° to target
+            if (adx > ady) {
+                waypoints.push({ x: from.x + sx * (adx - ady), y: from.y });
+            } else {
+                waypoints.push({ x: from.x, y: from.y + sy * (ady - adx) });
+            }
+
+        } else if (strategy < 0.75) {
+            // S-bend: orthogonal → diagonal → orthogonal
+            var diag = Math.min(adx, ady);
+            var halfDiag = Math.floor(diag / 2);
+            if (adx > ady) {
+                var preLen = Math.floor((adx - ady) / 2);
+                waypoints.push({ x: from.x + sx * preLen, y: from.y });
+                waypoints.push({ x: from.x + sx * (preLen + halfDiag), y: from.y + sy * halfDiag });
+                waypoints.push({ x: from.x + sx * (preLen + diag), y: to.y });
+            } else {
+                var preLen = Math.floor((ady - adx) / 2);
+                waypoints.push({ x: from.x, y: from.y + sy * preLen });
+                waypoints.push({ x: from.x + sx * halfDiag, y: from.y + sy * (preLen + halfDiag) });
+                waypoints.push({ x: to.x, y: from.y + sy * (preLen + diag) });
+            }
+
+        } else {
+            // Classic L-shape (original behavior)
             if (Math.random() < 0.5) {
                 waypoints.push({ x: to.x, y: from.y });
             } else {
                 waypoints.push({ x: from.x, y: to.y });
             }
         }
+
         waypoints.push({ x: to.x, y: to.y });
-        return {
-            waypoints: waypoints,
-            length: calcTraceLength(waypoints)
-        };
+        return { waypoints: waypoints, length: calcTraceLength(waypoints) };
     }
 
     function addStub(node) {
         var dirs = [
             { dx: 1, dy: 0 }, { dx: -1, dy: 0 },
-            { dx: 0, dy: 1 }, { dx: 0, dy: -1 }
+            { dx: 0, dy: 1 }, { dx: 0, dy: -1 },
+            { dx: 1, dy: 1 }, { dx: -1, dy: 1 },
+            { dx: 1, dy: -1 }, { dx: -1, dy: -1 }
         ];
         var dir = dirs[Math.floor(Math.random() * dirs.length)];
         var len = (1 + Math.floor(Math.random() * 2)) * GRID_SIZE;
