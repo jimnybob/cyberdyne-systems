@@ -1,0 +1,283 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #000000;
+    color: #e0e0e0;
+    font-family: 'Courier New', 'Consolas', 'Liberation Mono', monospace;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   SECTION LAYOUT
+   ============================================ */
+
+.section {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#hero {
+    background: radial-gradient(ellipse at center, #0a0a15 0%, #000000 70%);
+}
+
+#hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, #05050f);
+    pointer-events: none;
+}
+
+#circuit-section {
+    background: #05050f;
+    overflow: hidden;
+}
+
+#circuit-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, #020208);
+    pointer-events: none;
+    z-index: 2;
+}
+
+#game-section {
+    background: #020208;
+}
+
+/* ============================================
+   SECTION LABELS
+   ============================================ */
+
+.section-label {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    z-index: 5;
+}
+
+.label-text {
+    font-size: 0.75rem;
+    color: rgba(0, 200, 255, 0.25);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   LOGO
+   ============================================ */
+
+.logo-container {
+    margin-bottom: 2.5rem;
+}
+
+#cyberdyne-logo {
+    width: 260px;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(204, 0, 0, 0.4))
+            drop-shadow(0 0 50px rgba(204, 0, 0, 0.15));
+}
+
+/* ============================================
+   TITLE / TYPEWRITER
+   ============================================ */
+
+.title-container {
+    text-align: center;
+}
+
+.subtitle-group {
+    margin-top: 0.8rem;
+}
+
+.typewriter {
+    font-family: 'Courier New', 'Consolas', monospace;
+    border-right: 2px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    min-height: 1em;
+    vertical-align: top;
+}
+
+.typewriter.typing {
+    border-right-color: #cc0000;
+    animation: blink-cursor 0.7s step-end infinite;
+}
+
+.typewriter.typed {
+    border-right-color: transparent;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { border-right-color: #cc0000; }
+    50% { border-right-color: transparent; }
+}
+
+#main-title {
+    font-size: 3.2rem;
+    letter-spacing: 0.35em;
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.2),
+        0 0 40px rgba(204, 0, 0, 0.15);
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+#subtitle-1 {
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    color: #cc0000;
+    text-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
+    font-weight: normal;
+    display: block;
+}
+
+#subtitle-2 {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: #666666;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    display: block;
+}
+
+/* ============================================
+   CIRCUIT BOARD CANVAS
+   ============================================ */
+
+#circuit-canvas {
+    width: 100%;
+    height: 100vh;
+    display: block;
+}
+
+/* ============================================
+   MISSILE COMMAND GAME
+   ============================================ */
+
+.game-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 16 / 9;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair;
+}
+
+.game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+}
+
+.game-overlay.hidden {
+    display: none;
+}
+
+.overlay-title {
+    font-size: 2rem;
+    color: #00ccff;
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+}
+
+.overlay-prompt {
+    font-size: 1rem;
+    color: #cc0000;
+    margin-top: 1rem;
+    letter-spacing: 0.2em;
+}
+
+.blink {
+    animation: blink-text 1.2s step-end infinite;
+}
+
+@keyframes blink-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.game-hud {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    font-size: 1rem;
+    color: #00ff88;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.game-hud.hidden {
+    display: none;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    #main-title {
+        font-size: 1.8rem;
+        letter-spacing: 0.2em;
+    }
+    #subtitle-1 {
+        font-size: 1rem;
+    }
+    #subtitle-2 {
+        font-size: 0.7rem;
+    }
+    #cyberdyne-logo {
+        width: 180px;
+    }
+    .game-hud {
+        font-size: 0.75rem;
+        gap: 1.5rem;
+    }
+    .overlay-title {
+        font-size: 1.3rem;
+    }
+    .overlay-prompt {
+        font-size: 0.8rem;
+    }
+}

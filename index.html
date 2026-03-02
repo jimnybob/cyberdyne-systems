@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberdyne Systems - Skynet Division</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- SECTION 1: Logo & Header -->
+    <header id="hero" class="section">
+        <div class="logo-container">
+            <svg id="cyberdyne-logo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <clipPath id="triangle-clip">
+                        <polygon points="200,20 15,380 385,380" />
+                    </clipPath>
+
+                    <pattern id="scanlines" x="0" y="0" width="400" height="5" patternUnits="userSpaceOnUse">
+                        <rect x="0" y="0" width="400" height="2" fill="rgba(0,0,0,0.35)" />
+                        <rect x="0" y="2" width="400" height="3" fill="transparent" />
+                    </pattern>
+
+                    <linearGradient id="scan-sweep" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+                        <stop offset="40%" stop-color="rgba(255,255,255,0)" />
+                        <stop offset="50%" stop-color="rgba(255,255,255,0.25)" />
+                        <stop offset="60%" stop-color="rgba(255,255,255,0)" />
+                        <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                    </linearGradient>
+
+                    <linearGradient id="panel-grad-light" x1="0" y1="0" x2="0.5" y2="1">
+                        <stop offset="0%" stop-color="#dd1111" />
+                        <stop offset="100%" stop-color="#990000" />
+                    </linearGradient>
+
+                    <linearGradient id="panel-grad-dark" x1="0" y1="0" x2="0.5" y2="1">
+                        <stop offset="0%" stop-color="#aa0000" />
+                        <stop offset="100%" stop-color="#660000" />
+                    </linearGradient>
+                </defs>
+
+                <g clip-path="url(#triangle-clip)">
+                    <!-- Red fill panels -->
+                    <!-- Top diamond (brightest) -->
+                    <polygon points="200,75 145,175 200,270 255,175" fill="#cc1111" />
+                    <!-- Upper-left wing -->
+                    <polygon points="200,20 145,175 15,380" fill="#991111" />
+                    <!-- Upper-right wing -->
+                    <polygon points="200,20 255,175 385,380" fill="#661010" />
+                    <!-- Bottom-left panel -->
+                    <polygon points="15,380 145,175 200,270 200,380" fill="#882020" />
+                    <!-- Bottom-right panel (darkest) -->
+                    <polygon points="385,380 255,175 200,270 200,380" fill="#441010" />
+
+                    <!-- Static scanline overlay -->
+                    <rect x="0" y="0" width="400" height="400" fill="url(#scanlines)" />
+
+                    <!-- Animated sweep highlight -->
+                    <rect id="scan-sweep-rect" x="0" y="0" width="400" height="400" fill="url(#scan-sweep)" opacity="0.6">
+                        <animateTransform attributeName="transform" type="translate"
+                            from="0 -400" to="0 400" dur="3s"
+                            repeatCount="indefinite" />
+                    </rect>
+                </g>
+
+                <!-- Y-frame structural borders -->
+                <g fill="none" stroke="#111111" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+                    <!-- Outer triangle -->
+                    <polygon points="200,20 15,380 385,380" />
+                    <!-- Vertical stem -->
+                    <line x1="200" y1="20" x2="200" y2="270" />
+                    <!-- Left arm -->
+                    <line x1="200" y1="270" x2="15" y2="380" />
+                    <!-- Right arm -->
+                    <line x1="200" y1="270" x2="385" y2="380" />
+                    <!-- Diamond -->
+                    <polygon points="200,75 145,175 200,270 255,175" />
+                </g>
+
+                <!-- Subtle highlight edges on frame -->
+                <g fill="none" stroke="rgba(255,100,100,0.15)" stroke-width="1.5" stroke-linejoin="round">
+                    <polygon points="200,20 15,380 385,380" />
+                    <polygon points="200,75 145,175 200,270 255,175" />
+                </g>
+            </svg>
+        </div>
+
+        <div class="title-container">
+            <h1 id="main-title" class="typewriter" data-text="CYBERDYNE SYSTEMS"></h1>
+            <div class="subtitle-group">
+                <h2 id="subtitle-1" class="typewriter" data-text="Skynet Division"></h2>
+                <p id="subtitle-2" class="typewriter" data-text="Neural Net-Based Artificial Intelligence"></p>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 2: Circuit Board -->
+    <section id="circuit-section" class="section">
+        <div class="section-label">
+            <span class="label-text">// NEURAL NETWORK TOPOLOGY</span>
+        </div>
+        <canvas id="circuit-canvas"></canvas>
+    </section>
+
+    <!-- SECTION 3: Missile Command Game -->
+    <section id="game-section" class="section">
+        <div class="section-label">
+            <span class="label-text">// DEFENSE GRID SIMULATION</span>
+        </div>
+        <div class="game-wrapper">
+            <canvas id="game-canvas"></canvas>
+            <div id="game-overlay" class="game-overlay">
+                <p class="overlay-title">DEFENSE GRID ONLINE</p>
+                <p class="overlay-prompt blink">[ CLICK TO ENGAGE ]</p>
+            </div>
+            <div id="game-hud" class="game-hud">
+                <span id="hud-score">SCORE: 0</span>
+                <span id="hud-wave">WAVE: 1</span>
+                <span id="hud-cities">CITIES: 6</span>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/typewriter.js"></script>
+    <script src="js/circuit-board.js"></script>
+    <script src="js/missile-command.js"></script>
+</body>
+</html>
